@@ -17,26 +17,27 @@ class Teamwork:
     def read_input(self):
 
         f = open('inputs/{}.txt'.format(self.filename), 'r')
-        self.totalProjects, self.totalContributors = map(int, f.readline().strip().split(" "))
+        self.totalContributors,self.totalProjects = map(int, f.readline().strip().split(" "))
 
-
-        for _ in range(0, self.totalContributors):
-
+        print(self.totalProjects, self.totalContributors)
+        for i in range(0, self.totalContributors):
             contributor ={}
             skills = []
-            contributor["name"], contributor["noSkills"] = f.readline().strip().split(" ")
+            line=f.readline().strip()
+            contributor["name"], contributor["noSkills"] = line.split(" ")
             contributor["noSkills"] = int(contributor["noSkills"])
-            for _ in range(contributor["noSkills"]):
+           
+            for j in range(contributor["noSkills"]):
                 skill = {}
-                skill["name"], skill["level"] = f.readline().strip().split(" ")
+                sl=f.readline().strip()
+                skill["name"], skill["level"] = sl.split(" ")
                 skill["level"] = int(skill["level"])
                 skills.append(skill)
             contributor["skills"] = skills
             contributor["free"] = True
-            
             self.contributors.append(contributor)
 
-        for _ in range(0, self.totalProjects):
+        for k in range(0, self.totalProjects):
             projects = {}
             skills = []
             projects["name"], projects["complete"], projects["score"], projects["before"], projects["totalRoles"] = f.readline().strip().split(" ")
@@ -44,7 +45,7 @@ class Teamwork:
             projects["score"] = int(projects["score"])
             projects["before"] = int(projects["before"])
             projects["totalRoles"] = int(projects["totalRoles"])
-            for _ in range(0, projects["totalRoles"]):
+            for l in range(0, projects["totalRoles"]):
                 skill = {}
                 skill["name"], skill["level"] = f.readline().strip().split(" ")
                 skill["level"] = int(skill["level"])
@@ -114,5 +115,5 @@ class Teamwork:
 
 
 if __name__ == '__main__':
-    for x in ['a_an_example.in', 'b_better_start_small.in', 'c_collaboration.in', 'd_dense_schedule.in','e_exceptional_skills', 'f_find_great_mentors.in']:
+    for x in [ 'b_better_start_small.in', 'a_an_example.in','c_collaboration.in', 'd_dense_schedule.in','e_exceptional_skills', 'f_find_great_mentors.in']:
         Teamwork(x).evaluateOutput()
