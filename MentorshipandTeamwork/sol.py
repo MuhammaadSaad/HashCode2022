@@ -14,8 +14,6 @@ class Teamwork:
 
         f = open('inputs/{}.txt'.format(self.filename), 'r')
         self.totalProjects, self.totalContributors = map(int, f.readline().strip().split(" "))
-
-
         for _ in range(0, self.totalContributors):
 
             contributor ={}
@@ -47,24 +45,24 @@ class Teamwork:
             self.projects.append(projects)
         f.close()
 
-    def output(self, ingredients):
+    def output(self, projects, contributors):
         f = open('output/{}_output.txt'.format(self.filename), 'w')
-        f.write(str(len(ingredients)))
-        f.write(" ")
-        f.write(" ".join(ingredients))
+        f.write(str(len(projects)))
+        for idx, project in enumerate(projects):
+            f.write("\n" + project + "\n")
+            f.write(" ".join(contributors[idx]))
         f.close()
 
 
     def select_project(self):
         self.read_input()
 
-        ingredients = []
-        for x in self.likes.most_common():
-            if self.likes[x[0]] > self.dislikes[x[0]]:
-                ingredients.append(x[0])
-        # ingredients.sort()
-        # ingredients = ingredients[:5]
-        self.output(ingredients)
+        # ingredients = []
+        # for x in self.likes.most_common():
+        #     if self.likes[x[0]] > self.dislikes[x[0]]:
+        #         ingredients.append(x[0])
+        # # ingredients.sort()
+        self.output(["Logging", "WebChat"], [["Anna", "Bob"], ["Maria","Anna"]])
 
 
 if __name__ == '__main__':
