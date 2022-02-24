@@ -1,12 +1,13 @@
 from collections import Counter, defaultdict
 
 
-class OnePizza:
+class Teamwork:
 
     def __init__(self, file):
-        self.cus = None
-        self.likes = Counter()
-        self.dislikes = Counter()
+        self.totalProjects = None
+        self.totalContributors = None
+        self.contributors = []
+        self.projects = []
         self.filename = file
 
     def read_input(self):
