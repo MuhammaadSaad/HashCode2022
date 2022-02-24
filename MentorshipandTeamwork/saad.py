@@ -15,14 +15,39 @@ class Teamwork:
 
     def read_input(self):
 
-        f = open('input/{}.txt'.format(self.filename), 'r')
-        cus = int(f.readline())
+        f = open('inputs/{}.txt'.format(self.filename), 'r')
+        self.totalProjects, self.totalContributors = map(int, f.readline().strip().split(" "))
 
-        for _ in range(0, cus):
-            l = f.readline().strip().split(" ")
-            d = f.readline().strip().split(" ")
-            self.likes.update(list(l)[1:])
-            self.dislikes.update(list(d)[1:])
+
+        for _ in range(0, self.totalContributors):
+
+            contributor ={}
+            skills = []
+            contributor["name"], contributor["noSkills"] = f.readline().strip().split(" ")
+            contributor["noSkills"] = int(contributor["noSkills"])
+            for _ in range(contributor["noSkills"]):
+                skill = {}
+                skill["name"], skill["level"] = f.readline().strip().split(" ")
+                skill["level"] = int(skill["level"])
+                skills.append(skill)
+            contributor["skills"] = skills
+            self.contributors.append(contributor)
+
+        for _ in range(0, self.totalProjects):
+            projects = {}
+            skills = []
+            projects["name"], projects["complete"], projects["score"], projects["before"], projects["totalRoles"] = f.readline().strip().split(" ")
+            projects["complete"] = int(projects["complete"])
+            projects["score"] = int(projects["score"])
+            projects["before"] = int(projects["before"])
+            projects["totalRoles"] = int(projects["totalRoles"])
+            for _ in range(0, projects["totalRoles"]):
+                skill = {}
+                skill["name"], skill["level"] = f.readline().strip().split(" ")
+                skill["level"] = int(skill["level"])
+                skills.append(skill)
+            projects["skills"] = skills
+            self.projects.append(projects)
         f.close()
 
     def output(self, completedProjects):
@@ -34,24 +59,25 @@ class Teamwork:
 
 
     def evaluateOutput(self):
-        self.contributors = [{ "name": "anna", "noSkills": 1, "skills": [{"name": "c++", "level": 1}]},
-  { "name": "bob", "noskills": 2, "skills": [{"name": "c++", "level": 1}, {"name": "html", "level": 5}]},
-  {"name": "Maria", "noskills": 1, "skills": [{"name": "Python", "level": 3}]}]
-        self.projects = [{"name": "logging", "complete": 5, "score": 10, "before":5, "TotalRoles": 1, "Roles": [{"name": "c++", "level": 3}]},
-                         { "name": "WebServer", "complete": 7, "score": 10, "before": 7, "TotalRoles": 2, "Roles": [{"name": "c++", "level": 2}, {"name": "html", "level": 3}]},
-                         {"name": "WebChat", "complete": 10, "score": 20, "before": 20, "TotalRoles": 2, "Roles": [{"name": "python", "level": 2}, {"name": "html", "level": 3}]}]
+#         self.contributors = [{'name': 'Anna', 'noSkills': 1, 'skills': [{'name': 'C++', 'level': 2}]}, {'name': 'Bob', 'noSkills': 2, 'skills': [{'name': 'HTML', 'level': 5}, {'name': 'CSS', 'level': 5}]}, {'name': 'Maria', 'noSkills': 1, 'skills': [{'name': 'Python', 'level': 3}]}]
+#         self.projects = [{'name': 'Logging', 'complete': 5, 'score': 10, 'before': 5, 'totalRoles': 1, 'skills': [{'name': 'C++', 'level': 3}]}, {'name': 'WebServer', 'complete': 7, 'score': 10, 'before': 7, 'totalRoles': 2, 'skills': [{'name': 'HTML', 'level': 3}, {'name': 'C++', 'level': 2}]}, {'name': 'WebChat', 'complete': 10, 'score': 20, 'before': 20, 'totalRoles': 2, 'skills': [{'name': 'Python', 'level': 3}, {'name': 'HTML', 'level': 3}]}]
                      
-        #self.read_input()
-
+        self.read_input()
+        
         completedProjects = []
-        for x in self.projects.():
-            if self.likes[x[0]] > self.dislikes[x[0]]:
-                completedProjects.append(x[0])
-        # ingredients.sort()
-        # ingredients = ingredients[:5]
-        self.output(completedProjects)
+        for proj in self.projects:
+            for prjskill in proj.get("skills"):
+                for cont in self.contributors:
+                    for contskills in cont.get("skills"):
+                        if prjskill.get("name") == contskills.get("name") and prjskill.get("level") <= contskills.get("level"):
+                            if proj.get("name") not in completedProjects:
+                                completedProjects.append(proj.get("name"))
+                    
+                
+            print(proj)           
+        #self.output(completedProjects)
 
 
 if __name__ == '__main__':
-    for x in ['a_an_example.in', 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
+    for x in ['a_an_example.in']:#, 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
         Teamwork(x).evaluateOutput()
