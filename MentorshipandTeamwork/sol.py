@@ -33,9 +33,8 @@ class Teamwork:
         '''
 
         f = open('inputs/{}.txt'.format(self.filename), 'r')
-        self.totalProjects, self.totalContributors = map(int, f.readline().strip().split(" "))
+        self.totalContributors, self.totalProjects = map(int, f.readline().strip().split(" "))
         for x in range(0, self.totalContributors):
-
             contributor =defaultdict()
             skills = []
             contributor["name"], contributor["noSkills"] = f.readline().strip().split(" ")
@@ -47,6 +46,9 @@ class Teamwork:
                 skills.append(skill)
             contributor["skills"] = skills
             self.contributors.append(contributor)
+            if x == self.totalContributors:
+                import pdb; pdb.set_trace()
+                break
 
         for _ in range(0, self.totalProjects):
             projects = defaultdict()
@@ -76,12 +78,14 @@ class Teamwork:
 
 
     def select_contributor(self, skill, level):
+        '''
+        return: name or False
+        '''
         for contributor in self.contributors:
             for cskill in contributor["skills"]:
                 if skill == cskill["name"] and cskill["level"] >= level:
                     return contributor["name"]
         return False
-
 
 
     def update_skill(self, name, skill, projLevel):
@@ -96,17 +100,44 @@ class Teamwork:
                             return True
         return False
 
-    def select_project(self):
+
+    def select_project(self, project):
+        contributor = []
+        sk = []
+        level = []
+        for skill in project['skills']:
+            ans = self.select_contributor(skill["name"], skill["level"])
+            if ans == False:
+                return False
+            else:
+                contributor.append(ans)
+                sk.append(skill["name"])
+                level.append(skill["level"])
+        for id, c in enumerate(contributor):
+            self.update_skill(c, sk[id], level[id])
+            return True
+
+
+    def solution(self):
         self.read_input()
         contributors = []
         selectedProjects = []
 
         currProjects = [p["name"] for p in self.projects]
 
-        # import pdb; pdb.set_trace()
-        # self.update_skill("Anna", "C++", 2)
+        self.select_project(self.projects[1])
 
-        
+
+        # def total_project():
+        for project in self.projects:
+            if self.select_project(project) == False:
+                return False
+        select_project =[]
+        for p in proj:
+            ans = select_project(p)
+            if ans == False:
+                print(p)
+            select_project.append(p)
 
         # for project in currProjects:
         #     skipProj = False
@@ -139,8 +170,9 @@ class Teamwork:
 
 if __name__ == '__main__':
     # for x in ['a_an_example.in', 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
+    # for x in ['b_better_start_small.in']:
     for x in ['a_an_example.in']:
-        Teamwork(x).select_project()
+        Teamwork(x).solution()
 
 
 
@@ -163,6 +195,8 @@ if __name__ == '__main__':
 #     increse contributor skill by 1
 	
 	
+
+
 # def select_project(project_name):
 #     contributor = []
 # 	for skill in project["skill"]:
@@ -172,6 +206,7 @@ if __name__ == '__main__':
 # 		return False
 #     for c in contributor:
 #     update_skill(name, skill, projLevel)
+
 
 
 
