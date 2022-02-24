@@ -38,7 +38,6 @@ class Teamwork:
 
             contributor =defaultdict()
             skills = []
-            import pdb; pdb.set_trace()
             contributor["name"], contributor["noSkills"] = f.readline().strip().split(" ")
             contributor["noSkills"] = int(contributor["noSkills"])
             for _ in range(contributor["noSkills"]):
@@ -75,12 +74,39 @@ class Teamwork:
         f.close()
 
 
+
+    def select_contributor(self, skill, level):
+        for contributor in self.contributors:
+            for cskill in contributor["skills"]:
+                if skill == cskill["name"] and cskill["level"] >= level:
+                    return contributor["name"]
+        return False
+
+
+
+    def update_skill(self, name, skill, projLevel):
+        for idc, contributor in enumerate(self.contributors):
+            if contributor["name"] == name:
+                for ids, cskill in enumerate(contributor["skills"]):
+                    if cskill["name"] == skill:
+                        if cskill["level"] > projLevel:
+                            return True
+                        else:
+                            self.contributors[idc]["skills"][ids]["level"] = self.contributors[idc]["skills"][ids]["level"] +1
+                            return True
+        return False
+
     def select_project(self):
         self.read_input()
         contributors = []
         selectedProjects = []
 
         currProjects = [p["name"] for p in self.projects]
+
+        # import pdb; pdb.set_trace()
+        # self.update_skill("Anna", "C++", 2)
+
+        
 
         # for project in currProjects:
         #     skipProj = False
@@ -113,7 +139,7 @@ class Teamwork:
 
 if __name__ == '__main__':
     # for x in ['a_an_example.in', 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
-    for x in ['b_better_start_small.in']:
+    for x in ['a_an_example.in']:
         Teamwork(x).select_project()
 
 
@@ -121,36 +147,39 @@ if __name__ == '__main__':
 
 
 
-projects = [logign, webchat]
+# projects = [logign, webchat]
 
 
 
-def select_contributor(skill, level):
-	return contributor
-	return False
+# def select_contributor(skill, level):
+#     for contributor in self.contributors:
+#         for cskill in contributor["skills"]:
+#             if skill == cskill["name"] and cskill["level"] >= level:
+#                 return contributor["name"]
+# 	return False
 
 
-def update_skill(name, skill, projLevel):
-    increse contributor skill by 1
+# def update_skill(name, skill, projLevel):
+#     increse contributor skill by 1
 	
 	
-def select_project(project_name):
-    contributor = []
-	for skill in project["skill"]:
-        select_contributor(skill, level)
-		contributor.append(ans)
-	if ans == False:
-		return False
-    for c in contributor:
-    update_skill(name, skill, projLevel)
+# def select_project(project_name):
+#     contributor = []
+# 	for skill in project["skill"]:
+#         select_contributor(skill, level)
+# 		contributor.append(ans)
+# 	if ans == False:
+# 		return False
+#     for c in contributor:
+#     update_skill(name, skill, projLevel)
 
 
 
-def total_project():
-    proj = ["logging", "webchat"]
-    select_project =[]
-    for p in proj:
-        ans = select_project(p)
-        if ans == False:
-            print(p)
-        select_project.append(p)
+# def total_project():
+#     proj = ["logging", "webchat"]
+#     select_project =[]
+#     for p in proj:
+#         ans = select_project(p)
+#         if ans == False:
+#             print(p)
+#         select_project.append(p)
