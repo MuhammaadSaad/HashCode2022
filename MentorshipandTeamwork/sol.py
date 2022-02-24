@@ -12,8 +12,8 @@ class Teamwork:
 
     def read_input(self):
 
-        f = open('input/{}.txt'.format(self.filename), 'r')
-        cus = int(f.readline())
+        f = open('inputs/{}.txt'.format(self.filename), 'r')
+        cus = int(f.readline().split())
 
         for _ in range(0, cus):
             l = f.readline().strip().split(" ")
@@ -30,7 +30,7 @@ class Teamwork:
         f.close()
 
 
-    def top_5_ingredients(self):
+    def select_project(self):
         self.read_input()
 
         ingredients = []
@@ -43,5 +43,6 @@ class Teamwork:
 
 
 if __name__ == '__main__':
-    for x in ['a_an_example.in', 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
-        OnePizza(x).top_5_ingredients()
+    # for x in ['a_an_example.in', 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
+    for x in ['a_an_example.in']:
+        Teamwork(x).top_5_ingredients()
