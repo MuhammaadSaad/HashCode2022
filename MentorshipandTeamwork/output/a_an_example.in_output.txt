@@ -1,5 +1,7 @@
-2
+3
 Logging
-Anna Bob Cathy
-WebApp
-Bob Cathy Dave
+Maria Bob
+WebServer
+Maria Bob
+WebChat
+Maria Bob
