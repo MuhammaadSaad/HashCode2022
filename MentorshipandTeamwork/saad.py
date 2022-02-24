@@ -1,5 +1,6 @@
 
 
+from calendar import c
 from collections import Counter, defaultdict
 
 
@@ -31,6 +32,8 @@ class Teamwork:
                 skill["level"] = int(skill["level"])
                 skills.append(skill)
             contributor["skills"] = skills
+            contributor["free"] = True
+            
             self.contributors.append(contributor)
 
         for _ in range(0, self.totalProjects):
@@ -59,31 +62,57 @@ class Teamwork:
             f.write(" ".join(contributors[idx]))
         f.close()
 
-
-
+    def selectContributors(self,skill,level):
+         contrib=[contributor for contributor in self.contributors if contributor.get("skills")[skill].get("level") >= level]
+         if contrib:
+             return contrib
+         return False
+    
+    def select_project(self, project):
+        
+        contribs=self.selectContributors(project.get("skills")[0].get("name"), project.get("skills")[0].get("level"))
+        if contribs:
+            return contribs
+        return False
+    
     def evaluateOutput(self):
 #         self.contributors = [{'name': 'Anna', 'noSkills': 1, 'skills': [{'name': 'C++', 'level': 2}]}, {'name': 'Bob', 'noSkills': 2, 'skills': [{'name': 'HTML', 'level': 5}, {'name': 'CSS', 'level': 5}]}, {'name': 'Maria', 'noSkills': 1, 'skills': [{'name': 'Python', 'level': 3}]}]
 #         self.projects = [{'name': 'Logging', 'complete': 5, 'score': 10, 'before': 5, 'totalRoles': 1, 'skills': [{'name': 'C++', 'level': 3}]}, {'name': 'WebServer', 'complete': 7, 'score': 10, 'before': 7, 'totalRoles': 2, 'skills': [{'name': 'HTML', 'level': 3}, {'name': 'C++', 'level': 2}]}, {'name': 'WebChat', 'complete': 10, 'score': 20, 'before': 20, 'totalRoles': 2, 'skills': [{'name': 'Python', 'level': 3}, {'name': 'HTML', 'level': 3}]}]
                      
         self.read_input()
         
-        completedProjects = {"projects":[], "contributors":[]}
+        completedProjects =[]
+        
+        prjcontributors=[]
+        final=[]
+        print(self.projects)
+        
         for proj in self.projects:
-            print(proj)
+            prjcontributors.clear()
+            #print(proj)
             for prjskill in proj.get("skills"):
                 for cont in self.contributors:
+                    print(cont)
                     for contskills in cont.get("skills"):
                         if prjskill.get("name") == contskills.get("name") and prjskill.get("level") <= contskills.get("level"):
-                            if  cont.get("name") not in completedProjects.get("contributors") and proj.get("name") not in completedProjects.get("projects"):
-                                completedProjects.get("contributors").append(cont.get("name"))
-            completedProjects.get("projects").append(proj.get("name"))  
-                                
+                            if  cont.get("name") not in completedProjects and proj.get("name") not in prjcontributors and cont.get("free"):
+                                prjcontributors.append(cont.get("name"))
+                                contskills["level"] = int(contskills.get("level") + 1)
+                                contskills["free"] = False
+                        
+    
+            completedProjects.append(proj.get("name"))  
+            
+                      
+            #final.append(proj.get("name"))    
+            final.append(prjcontributors)     
                     
-                
-        print(completedProjects)           
-        #self.output(completedProjects)
+        print(self.contributors)             
+                        
+        print(completedProjects,final)           
+        self.output(completedProjects,final)
 
 
 if __name__ == '__main__':
-    for x in ['a_an_example.in']:#, 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
+    for x in ['a_an_example.in', 'b_better_start_small.in', 'c_collaboration.in', 'd_dense_schedule.in','e_exceptional_skills', 'f_find_great_mentors.in']:
         Teamwork(x).evaluateOutput()
