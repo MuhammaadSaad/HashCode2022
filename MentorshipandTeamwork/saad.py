@@ -50,12 +50,15 @@ class Teamwork:
             self.projects.append(projects)
         f.close()
 
-    def output(self, completedProjects):
+    
+    def output(self, projects, contributors):
         f = open('output/{}_output.txt'.format(self.filename), 'w')
-        f.write(str(len(completedProjects)))
-        f.write(" ")
-        f.write(" ".join(completedProjects))
+        f.write(str(len(projects)))
+        for idx, project in enumerate(projects):
+            f.write("\n" + project + "\n")
+            f.write(" ".join(contributors[idx]))
         f.close()
+
 
 
     def evaluateOutput(self):
@@ -64,17 +67,20 @@ class Teamwork:
                      
         self.read_input()
         
-        completedProjects = []
+        completedProjects = {"projects":[], "contributors":[]}
         for proj in self.projects:
+            print(proj)
             for prjskill in proj.get("skills"):
                 for cont in self.contributors:
                     for contskills in cont.get("skills"):
                         if prjskill.get("name") == contskills.get("name") and prjskill.get("level") <= contskills.get("level"):
-                            if proj.get("name") not in completedProjects:
-                                completedProjects.append(proj.get("name"))
+                            if  cont.get("name") not in completedProjects.get("contributors") and proj.get("name") not in completedProjects.get("projects"):
+                                completedProjects.get("contributors").append(cont.get("name"))
+            completedProjects.get("projects").append(proj.get("name"))  
+                                
                     
                 
-            print(proj)           
+        print(completedProjects)           
         #self.output(completedProjects)
 
 
