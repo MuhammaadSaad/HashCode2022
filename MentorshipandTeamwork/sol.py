@@ -9,6 +9,8 @@ class Teamwork:
         self.contributors = []
         self.projects = []
         self.filename = file
+        self.selectedcontributor = []
+        self.selectedProjects = []
 
     def read_input(self):
         '''
@@ -103,8 +105,8 @@ class Teamwork:
 
     def select_project(self, project):
         contributor = []
-        sk = []
-        level = []
+        sk = [] # skill of the contributor
+        level = [] # project skill level
         for skill in project['skills']:
             ans = self.select_contributor(skill["name"], skill["level"])
             if ans == False:
@@ -113,6 +115,8 @@ class Teamwork:
                 contributor.append(ans)
                 sk.append(skill["name"])
                 level.append(skill["level"])
+
+        self.selectedcontributor.append(contributor)
         for id, c in enumerate(contributor):
             self.update_skill(c, sk[id], level[id])
             return True
@@ -125,19 +129,21 @@ class Teamwork:
 
         currProjects = [p["name"] for p in self.projects]
 
-        self.select_project(self.projects[1])
+        # self.select_project(self.projects[1])
 
 
-        # def total_project():
-        for project in self.projects:
-            if self.select_project(project) == False:
-                return False
-        select_project =[]
-        for p in proj:
-            ans = select_project(p)
-            if ans == False:
-                print(p)
-            select_project.append(p)
+        for id, project in enumerate(currProjects):
+            project = self.projects[id]
+            import pdb; pdb.set_trace()
+            if project['name'] in currProjects:
+                if self.select_project(project) == False:
+                    continue
+                else:
+                    selectedProjects.append(project["name"])
+                    currProjects.remove(project["name"])
+
+        self.selectedProjects = selectedProjects
+
 
         # for project in currProjects:
         #     skipProj = False
@@ -163,8 +169,8 @@ class Teamwork:
         #             if sfound == False:
         #                 skipProj=True
 
-        selectedProjects= ["Logging", "WebApp"]
-        contributors = [["Anna", "Bob", "Cathy"], ["Bob", "Cathy", "Dave"]]
+        # selectedProjects= ["Logging", "WebApp"]
+        # contributors = [["Anna", "Bob", "Cathy"], ["Bob", "Cathy", "Dave"]]
         self.output(selectedProjects, contributors)
 
 
