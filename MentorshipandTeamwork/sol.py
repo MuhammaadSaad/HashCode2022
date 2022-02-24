@@ -13,13 +13,38 @@ class Teamwork:
     def read_input(self):
 
         f = open('inputs/{}.txt'.format(self.filename), 'r')
-        cus = int(f.readline().split())
+        self.totalProjects, self.totalContributors = map(int, f.readline().strip().split(" "))
 
-        for _ in range(0, cus):
-            l = f.readline().strip().split(" ")
-            d = f.readline().strip().split(" ")
-            self.likes.update(list(l)[1:])
-            self.dislikes.update(list(d)[1:])
+
+        for _ in range(0, self.totalContributors):
+
+            contributor ={}
+            skills = []
+            contributor["name"], contributor["noSkills"] = f.readline().strip().split(" ")
+            contributor["noSkills"] = int(contributor["noSkills"])
+            for _ in range(contributor["noSkills"]):
+                skill = {}
+                skill["name"], skill["level"] = f.readline().strip().split(" ")
+                skill["level"] = int(skill["level"])
+                skills.append(skill)
+            contributor["skills"] = skills
+            self.contributors.append(contributor)
+
+        for _ in range(0, self.totalProjects):
+            projects = {}
+            skills = []
+            projects["name"], projects["complete"], projects["score"], projects["before"], projects["totalRoles"] = f.readline().strip().split(" ")
+            projects["complete"] = int(projects["complete"])
+            projects["score"] = int(projects["score"])
+            projects["before"] = int(projects["before"])
+            projects["totalRoles"] = int(projects["totalRoles"])
+            for _ in range(0, projects["totalRoles"]):
+                skill = {}
+                skill["name"], skill["level"] = f.readline().strip().split(" ")
+                skill["level"] = int(skill["level"])
+                skills.append(skill)
+            projects["skills"] = skills
+            self.projects.append(projects)
         f.close()
 
     def output(self, ingredients):
@@ -45,4 +70,4 @@ class Teamwork:
 if __name__ == '__main__':
     # for x in ['a_an_example.in', 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
     for x in ['a_an_example.in']:
-        Teamwork(x).top_5_ingredients()
+        Teamwork(x).select_project()
