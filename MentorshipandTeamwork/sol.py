@@ -11,13 +11,34 @@ class Teamwork:
         self.filename = file
 
     def read_input(self):
+        '''
+        Sample payload is this:
+
+
+        Contributor:
+        {   "name": "Anna",    
+            "noSkills": 1, 
+            "skills": [{"name": "C++", "level": 2}]
+        }
+
+        Project:
+        {
+            "name": "Logging",
+            "complete": 5,
+            "score": 10,
+            "before": 5,
+            "totalRoles": 1,
+            "skills": [{"name": "C++", "level": 3}],
+        },
+        '''
 
         f = open('inputs/{}.txt'.format(self.filename), 'r')
         self.totalProjects, self.totalContributors = map(int, f.readline().strip().split(" "))
-        for _ in range(0, self.totalContributors):
+        for x in range(0, self.totalContributors):
 
-            contributor ={}
+            contributor =defaultdict()
             skills = []
+            import pdb; pdb.set_trace()
             contributor["name"], contributor["noSkills"] = f.readline().strip().split(" ")
             contributor["noSkills"] = int(contributor["noSkills"])
             for _ in range(contributor["noSkills"]):
@@ -29,7 +50,7 @@ class Teamwork:
             self.contributors.append(contributor)
 
         for _ in range(0, self.totalProjects):
-            projects = {}
+            projects = defaultdict()
             skills = []
             projects["name"], projects["complete"], projects["score"], projects["before"], projects["totalRoles"] = f.readline().strip().split(" ")
             projects["complete"] = int(projects["complete"])
@@ -56,16 +77,80 @@ class Teamwork:
 
     def select_project(self):
         self.read_input()
+        contributors = []
+        selectedProjects = []
 
-        # ingredients = []
-        # for x in self.likes.most_common():
-        #     if self.likes[x[0]] > self.dislikes[x[0]]:
-        #         ingredients.append(x[0])
-        # # ingredients.sort()
-        self.output(["Logging", "WebChat"], [["Anna", "Bob"], ["Maria","Anna"]])
+        currProjects = [p["name"] for p in self.projects]
+
+        # for project in currProjects:
+        #     skipProj = False
+        #     conProj = []
+        #     for Pskill in project['skills']:
+        #         import pdb; pdb.set_trace()
+        #         sfound = False
+        #         if skipProj==True:
+        #             break
+        #         for contributor in self.contributors:
+        #             if sfound == True:
+        #                 break
+        #             if skipProj==True:
+        #                 break
+        #             for Cskill in contributor['skills']:
+        #                 if Pskill['name'] == Cskill['name'] and Cskill['level'] >= Pskill['level']:
+        #                     conProj.append(contributor['name'])
+        #                     sfound = True
+        #                 elif sfound == True:
+        #                     break
+        #                 else:
+        #                     continue
+        #             if sfound == False:
+        #                 skipProj=True
+
+        selectedProjects= ["Logging", "WebApp"]
+        contributors = [["Anna", "Bob", "Cathy"], ["Bob", "Cathy", "Dave"]]
+        self.output(selectedProjects, contributors)
 
 
 if __name__ == '__main__':
     # for x in ['a_an_example.in', 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
-    for x in ['a_an_example.in']:
+    for x in ['b_better_start_small.in']:
         Teamwork(x).select_project()
+
+
+
+
+
+
+projects = [logign, webchat]
+
+
+
+def select_contributor(skill, level):
+	return contributor
+	return False
+
+
+def update_skill(name, skill, projLevel):
+    increse contributor skill by 1
+	
+	
+def select_project(project_name):
+    contributor = []
+	for skill in project["skill"]:
+        select_contributor(skill, level)
+		contributor.append(ans)
+	if ans == False:
+		return False
+    for c in contributor:
+    update_skill(name, skill, projLevel)
+
+
+
+def total_project():
+    proj = ["logging", "webchat"]
+    select_project =[]
+    for p in proj:
+        ans = select_project(p)
+        if ans == False:
+            print(p)
+        select_project.append(p)
