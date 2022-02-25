@@ -76,16 +76,16 @@ class Teamwork:
             f.write("\n" + project + "\n")
             f.write(" ".join(contributors[idx]))
         f.close()
+        print("writed"+self.filename)
 
 
-
-    def select_contributor(self, skill, level):
+    def select_contributor(self, skill, level,prjcontributor):
         '''
         return: name or False
         '''
         for contributor in self.contributors:
             for cskill in contributor["skills"]:
-                if skill == cskill["name"] and cskill["level"] >= level:
+                if skill == cskill["name"] and cskill["level"] >= level and contributor["name"] not in prjcontributor:
                     return contributor["name"]
         return False
 
@@ -108,7 +108,7 @@ class Teamwork:
         sk = [] # skill of the contributor
         level = [] # project skill level
         for skill in project['skills']:
-            ans = self.select_contributor(skill["name"], skill["level"])
+            ans = self.select_contributor(skill["name"], skill["level"],contributor)
             if ans == False:
                 return False
             else:
@@ -119,31 +119,30 @@ class Teamwork:
         self.selectedcontributor.append(contributor)
         for id, c in enumerate(contributor):
             self.update_skill(c, sk[id], level[id])
-            return True
+        return True
 
 
     def solution(self):
         self.read_input()
         contributors = []
         selectedProjects = []
-
         currProjects = [p["name"] for p in self.projects]
 
         # self.select_project(self.projects[1])
-
-
-        for id, project in enumerate(currProjects):
-            project = self.projects[id]
-            import pdb; pdb.set_trace()
-            if project['name'] in currProjects:
-                if self.select_project(project) == False:
-                    continue
-                else:
-                    selectedProjects.append(project["name"])
-                    currProjects.remove(project["name"])
+        while currProjects.__len__()>1: # added to complete all projects
+            print(currProjects)
+            print(self.contributors)
+            for id, project in enumerate(currProjects):
+                project = self.projects[id]
+                if project['name'] in currProjects:
+                    if self.select_project(project) == False:
+                        continue
+                    else:
+                        selectedProjects.append(project["name"])
+                        currProjects.remove(project["name"])
 
         self.selectedProjects = selectedProjects
-
+        self.output(selectedProjects, self.selectedcontributor)
 
         # for project in currProjects:
         #     skipProj = False
@@ -171,13 +170,14 @@ class Teamwork:
 
         # selectedProjects= ["Logging", "WebApp"]
         # contributors = [["Anna", "Bob", "Cathy"], ["Bob", "Cathy", "Dave"]]
-        self.output(selectedProjects, contributors)
+        #print(selectedProjects, self.selectedcontributor)
 
 
 if __name__ == '__main__':
     # for x in ['a_an_example.in', 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
-    # for x in ['b_better_start_small.in']:
-    for x in ['a_an_example.in']:
+    for x in ['b_better_start_small.in']:
+    #for x in ['a_an_example.in']:
+    #for x in [ 'a_an_example.in','b_better_start_small.in', 'c_collaboration.in', 'd_dense_schedule.in','e_exceptional_skills.in', 'f_find_great_mentors.in']:
         Teamwork(x).solution()
 
 

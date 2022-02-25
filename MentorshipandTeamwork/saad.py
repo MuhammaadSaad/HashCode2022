@@ -61,6 +61,7 @@ class Teamwork:
         for idx, project in enumerate(projects):
             f.write("\n" + project + "\n")
             f.write(" ".join(contributors[idx]))
+        print('writed')
         f.close()
 
     def selectContributors(self,skill,level):
@@ -86,20 +87,20 @@ class Teamwork:
         
         prjcontributors=[]
         final=[]
-        print(self.projects)
+        #print(self.projects)
         
         for proj in self.projects:
             prjcontributors.clear()
             #print(proj)
             for prjskill in proj.get("skills"):
                 for cont in self.contributors:
-                    print(cont)
+                    #print(cont)
                     for contskills in cont.get("skills"):
                         if prjskill.get("name") == contskills.get("name") and prjskill.get("level") <= contskills.get("level"):
                             if  cont.get("name") not in completedProjects and proj.get("name") not in prjcontributors and cont.get("free"):
                                 prjcontributors.append(cont.get("name"))
                                 contskills["level"] = int(contskills.get("level") + 1)
-                                contskills["free"] = False
+                                cont["free"] = False
                         
     
             completedProjects.append(proj.get("name"))  
@@ -108,12 +109,12 @@ class Teamwork:
             #final.append(proj.get("name"))    
             final.append(prjcontributors)     
                     
-        print(self.contributors)             
+        #print(self.contributors)             
                         
-        print(completedProjects,final)           
+        #print(completedProjects,final)           
         self.output(completedProjects,final)
 
 
 if __name__ == '__main__':
-    for x in [ 'b_better_start_small.in', 'a_an_example.in','c_collaboration.in', 'd_dense_schedule.in','e_exceptional_skills', 'f_find_great_mentors.in']:
+    for x in [ 'a_an_example.in','b_better_start_small.in', 'c_collaboration.in', 'd_dense_schedule.in','e_exceptional_skills.in', 'f_find_great_mentors.in']:
         Teamwork(x).evaluateOutput()
