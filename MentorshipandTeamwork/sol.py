@@ -124,23 +124,34 @@ class Teamwork:
 
     def solution(self):
         self.read_input()
-        contributors = []
         selectedProjects = []
         currProjects = [p["name"] for p in self.projects]
-
         # self.select_project(self.projects[1])
-        while currProjects.__len__()>1: # added to complete all projects
+        repeat=0
+        value=0
+        while currProjects.__len__()<=int(self.projects.__len__()): # added to complete all projects
             print(currProjects)
             print(self.contributors)
+            print("----------------------------------------------------")
+            if value==selectedProjects.__len__():
+                repeat=repeat+1
+            if repeat>5:
+                break
             for id, project in enumerate(currProjects):
                 project = self.projects[id]
+                
+                print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+                print(project)
+                print(id)
+                print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                 if project['name'] in currProjects:
                     if self.select_project(project) == False:
                         continue
                     else:
                         selectedProjects.append(project["name"])
                         currProjects.remove(project["name"])
-
+            if value<selectedProjects.__len__():
+                value=selectedProjects.__len__()
         self.selectedProjects = selectedProjects
         self.output(selectedProjects, self.selectedcontributor)
 
@@ -175,8 +186,8 @@ class Teamwork:
 
 if __name__ == '__main__':
     # for x in ['a_an_example.in', 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
-    for x in ['b_better_start_small.in']:
-    #for x in ['a_an_example.in']:
+    #for x in ['b_better_start_small.in']:
+    for x in ['a_an_example.in']:
     #for x in [ 'a_an_example.in','b_better_start_small.in', 'c_collaboration.in', 'd_dense_schedule.in','e_exceptional_skills.in', 'f_find_great_mentors.in']:
         Teamwork(x).solution()
 

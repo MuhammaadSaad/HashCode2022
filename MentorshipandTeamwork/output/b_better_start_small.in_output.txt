@@ -1,4 +1,4 @@
-32
+34
 SlidesNextv2
 JenZ PhilippH
 GlassOSSv3
@@ -29,6 +29,8 @@ WearOSLitev5
 NellyY BakhodirD TatiyanaC JenK PhilippI
 DaydreamLitev7
 BakhodirW
+BloggerNextv8
+PhilippP ClementE MatasW SergeyV
 MapsProv8
 HiroshiW SergeyT BakhodirD
 ConnectLitev9
@@ -63,3 +65,5 @@ AndroidAutoZv2
 PhilippH JenK PhilippI LarryX SergeyU
 StreetViewXv1
 TatiyanaC JenK FionaF
+AndroidTVNextv1
+MatasC NellyX SergeyV LarryO PhilippP ThomasM SergeyU SundarL
