@@ -65,7 +65,8 @@ class Teamwork:
         f.close()
 
     def selectContributors(self,skill,level):
-         contrib=[contributor for contributor in self.contributors if contributor.get("skills")[skill].get("level") >= level]
+        
+         contrib=[contributor for contributor in self.contributors if contributor.get("skills")[skill].get("level") <= level]
          if contrib:
              return contrib
          return False

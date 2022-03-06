@@ -47,6 +47,7 @@ class Teamwork:
                 skill["level"] = int(skill["level"])
                 skills.append(skill)
             contributor["skills"] = skills
+            contributor["free"] = True
             self.contributors.append(contributor)
             if x == self.totalContributors:
                 import pdb; pdb.set_trace()
@@ -66,6 +67,7 @@ class Teamwork:
                 skill["level"] = int(skill["level"])
                 skills.append(skill)
             projects["skills"] = skills
+            projects["done"] = False
             self.projects.append(projects)
         f.close()
 
@@ -76,7 +78,7 @@ class Teamwork:
             f.write("\n" + project + "\n")
             f.write(" ".join(contributors[idx]))
         f.close()
-        print("writed"+self.filename)
+        print("writed "+self.filename)
 
 
     def select_contributor(self, skill, level,prjcontributor):
@@ -85,8 +87,10 @@ class Teamwork:
         '''
         for contributor in self.contributors:
             for cskill in contributor["skills"]:
-                if skill == cskill["name"] and cskill["level"] >= level and contributor["name"] not in prjcontributor:
-                    return contributor["name"]
+                if skill == cskill["name"] and cskill["level"] >= level and contributor["free"] == True:
+                    if contributor["name"] not in prjcontributor:
+                        return contributor["name"]
+                    
         return False
 
 
@@ -125,31 +129,26 @@ class Teamwork:
     def solution(self):
         self.read_input()
         selectedProjects = []
-        currProjects = [p["name"] for p in self.projects]
+        currProjects = [p["name"] for p in sorted(self.projects, key=lambda x: x["before"], reverse=True)]
         # self.select_project(self.projects[1])
         repeat=0
         value=0
-        while currProjects.__len__()<=int(self.projects.__len__()): # added to complete all projects
-            print(currProjects)
-            print(self.contributors)
+        while selectedProjects.__len__()<int(self.projects.__len__()): # added to complete all projects
+            print(repeat)
+            print(currProjects.__len__())
             print("----------------------------------------------------")
             if value==selectedProjects.__len__():
                 repeat=repeat+1
-            if repeat>5:
+            if repeat>3:
                 break
             for id, project in enumerate(currProjects):
                 project = self.projects[id]
-                
-                print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-                print(project)
-                print(id)
-                print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-                if project['name'] in currProjects:
+                if project['name'] in currProjects and project['done'] == False:
                     if self.select_project(project) == False:
                         continue
                     else:
                         selectedProjects.append(project["name"])
-                        currProjects.remove(project["name"])
+                        self.projects[id]["done"]=True
             if value<selectedProjects.__len__():
                 value=selectedProjects.__len__()
         self.selectedProjects = selectedProjects
@@ -187,7 +186,7 @@ class Teamwork:
 if __name__ == '__main__':
     # for x in ['a_an_example.in', 'b_basic.in', 'c_coarse.in', 'd_difficult.in', 'e_elaborate.in']:
     #for x in ['b_better_start_small.in']:
-    for x in ['a_an_example.in']:
+    for x in ['c_collaboration.in']:
     #for x in [ 'a_an_example.in','b_better_start_small.in', 'c_collaboration.in', 'd_dense_schedule.in','e_exceptional_skills.in', 'f_find_great_mentors.in']:
         Teamwork(x).solution()
 
